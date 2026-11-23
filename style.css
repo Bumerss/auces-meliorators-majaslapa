@@ -247,3 +247,21 @@ a { color: var(--green-dark); text-underline-offset: 4px; }
 .page h2 { font-size: var(--t-lg); margin: var(--s6) 0 var(--s3); }
 .page p, .page li { color: var(--ink-soft); }
 .page p + p { margin-top: var(--s3); }
+
+/* Page header on inner pages */
+.page-head { background: var(--mist); }
+.page-head .wrap { padding-block: var(--s6) var(--s7); display: flex; flex-direction: column; gap: var(--s4); }
+.page-head h1 { font-size: var(--t-hero); font-weight: 800; }
+.page-head p { font-size: var(--t-md); color: var(--ink-soft); max-width: 60ch; }
+
+/* Call to action band at the bottom of pages */
+.cta-band { background: var(--green-dark); color: #FFFFFF; }
+.cta-band .wrap { padding-block: var(--s8); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s5) var(--s7); }
+.cta-band h2 { color: #FFFFFF; font-size: var(--t-xl); font-weight: 800; max-width: 22ch; }
+.cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4) var(--s5); font-size: var(--t-md); }
+.cta-actions a:not(.btn) { color: #FFFFFF; font-weight: 700; }
+.cta-actions a:not(.btn):hover { color: var(--green-light); }
+.cta-band :focus-visible { outline-color: #FFFFFF; }
+
+.form-title { grid-column: 1 / -1; font-size: var(--t-lg); font-weight: 800; }
+.page-head + .bars + .wrap.page { padding-top: var(--s7); }
