@@ -1,0 +1,5 @@
+# Gatavs īstajam domēnam. Uz GitHub Pages projekta adreses meklētāji šo failu nelasa.
+User-agent: *
+Allow: /
+
+Sitemap: https://bumerss.github.io/auces-meliorators-majaslapa/sitemap.xml
