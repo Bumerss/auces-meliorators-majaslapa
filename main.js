@@ -15,6 +15,44 @@
     });
   }
 
+  // Current section: underline slides to the menu link of the section on screen.
+  var ink = document.querySelector('.nav-ink');
+  var navLinks = [].slice.call(document.querySelectorAll('.nav a[href^="#"]:not(.btn)'));
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var current = null, lockUntil = 0;
+  function moveInk(link, instant) {
+    if (!ink) return;
+    if (!link || !link.offsetWidth) { ink.style.opacity = '0'; return; }
+    var pad = 12; // matches link side padding
+    ink.classList.toggle('no-anim', !!instant);
+    ink.style.transform = 'translateX(' + (link.offsetLeft + pad) + 'px) scaleX(' + (link.offsetWidth - pad * 2) + ')';
+    ink.style.opacity = '1';
+  }
+  function setCurrent(link, instant) {
+    if (link === current) return;
+    var wasHidden = !current;
+    navLinks.forEach(function (a) { if (a === link) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+    current = link;
+    moveInk(link, instant || wasHidden);
+  }
+  function spy() {
+    if (Date.now() < lockUntil) return;
+    var line = window.innerHeight * 0.35, found = null;
+    sections.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) found = navLinks[i]; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) found = navLinks[navLinks.length - 1];
+    setCurrent(found);
+  }
+  navLinks.forEach(function (a) {
+    a.addEventListener('click', function () { lockUntil = Date.now() + 900; setCurrent(a); });
+  });
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; spy(); }); }
+  }, { passive: true });
+  window.addEventListener('resize', function () { moveInk(current, true); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(current, true); });
+  spy();
+
   // Section entry (CSS keeps content visible when JS or motion is off).
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
