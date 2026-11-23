@@ -101,7 +101,7 @@
       if (!check(input) && !first) first = input;
     });
     if (first) { first.focus(); status.hidden = true; return; }
-    status.textContent = 'Šī ir mājaslapas priekšskatījuma versija, tāpēc pieteikums netiek nosūtīts. Lūdzu, zvaniet [+371 2X XXX XXX].';
+    status.textContent = 'Šī ir mājaslapas priekšskatījuma versija, tāpēc pieteikums netiek nosūtīts. Lūdzu, zvaniet +371 25 668 515.';
     status.hidden = false;
   });
 })();
