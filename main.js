@@ -45,13 +45,19 @@
   navLinks.forEach(function (a) {
     a.addEventListener('click', function () { lockUntil = Date.now() + 900; setCurrent(a); });
   });
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; spy(); }); }
-  }, { passive: true });
+  if (navLinks.length) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; spy(); }); }
+    }, { passive: true });
+    spy();
+  } else {
+    // Subpages (e.g. a service page): underline stays under the menu item marked aria-current="page".
+    current = document.querySelector('.nav a[aria-current]');
+    moveInk(current, true);
+  }
   window.addEventListener('resize', function () { moveInk(current, true); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(current, true); });
-  spy();
 
   // Section entry (CSS keeps content visible when JS or motion is off).
   var items = document.querySelectorAll('.reveal');
@@ -66,6 +72,9 @@
 
   // Service links prefill the "Darba veids" field.
   var select = document.getElementById('darbs');
+  // Service pages link to ../?darbs=<service>#kontakti to prefill the job type.
+  var wanted = new URLSearchParams(location.search).get('darbs');
+  if (select && wanted && [].some.call(select.options, function (o) { return o.value === wanted; })) select.value = wanted;
   document.querySelectorAll('[data-service]').forEach(function (a) {
     a.addEventListener('click', function () {
       var v = a.getAttribute('data-service');
